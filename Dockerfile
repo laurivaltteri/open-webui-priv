@@ -18,10 +18,18 @@ ARG GID=0
 ######## WebUI frontend ########
 FROM --platform=$BUILDPLATFORM node:21-alpine3.19 as build
 
+ARG USE_CUDA
+ARG USE_OLLAMA
+ARG USE_CUDA_VER
+ARG USE_EMBEDDING_MODEL
+ARG USE_RERANKING_MODEL
+ARG UID
+ARG GID
+
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci  --loglevel verbose
 
 COPY . .
 RUN npm run build
